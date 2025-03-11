@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estoque de Jogos</title>
+</head>
+<body>
+    <h2>Controle de Jogos</h2>
+    <hr>
+    {% for game in gamestoque %}
+    {{game.title}} <br>
+    {{game.year}}    <br>
+    {{game.category}} <br>
+    {{game.platform}} <br>
+    {{game.price}} <br>
+    {{game.quantity}} <br>
+    {% endfor %}
+</body>
+</html>

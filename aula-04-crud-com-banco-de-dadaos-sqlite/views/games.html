@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div class="container mt-4">
+        <h2 class="text-primary">Esta é a página de Games</h2>
+        <hr>
+
+        <p class="fw-bold">Game mais jogado no momento:</p>
+        
+        <div class="card p-3 bg-light">
+            {% for k, v in game.items() %}
+                <details class="mb-2">
+                    <summary class="fw-bold">{{ k }}</summary>
+                    <p class="text-muted">{{ v }}</p>
+                </details>
+            {% endfor %}
+        </div>
+
+        <p class="mt-3">O jogo <strong>{{ game['Título'] }}</strong> tem <strong>{{ 2024 - game['Ano'] }}</strong> anos.</p>
+
+        <p class="fw-bold">Está sendo jogado por:</p>
+        {% if jogadores %}
+            <ol class="list-group list-group-numbered">
+                {% for j in jogadores %}
+                    <li class="list-group-item">{{ j }}</li>
+                {% endfor %}
+            </ol>
+        {% else %}
+            <p class="text-muted">Ainda não há jogadores.</p>
+        {% endif %}
+
+        <hr>
+        <h4>Entrar no jogo</h4>
+
+        <form action="{{ url_for('games') }}" method="POST" class="mt-3">
+            <div class="mb-3">
+                <label for="jogador" class="form-label">Jogador:</label>
+                <input type="text" name="jogador" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-success">Entrar</button>
+        </form>
+    </div>
+
+{% endblock content %}

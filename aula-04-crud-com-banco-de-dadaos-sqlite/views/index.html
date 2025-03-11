@@ -1,0 +1,11 @@
+{% extends 'base.html' %} {% block content %}
+<h2>Esta é a Homepage.</h2>
+<h3>Iniciando estudos com Flask!</h3>
+
+<a href="{{ url_for('games') }}">Ir para Games</a>
+
+<img
+  src="{{ url_for('static', filename='images/games.webp') }}"
+  alt="The Games"
+/>
+{% endblock content %}
