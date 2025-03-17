@@ -4,15 +4,18 @@ from models.database import db
 import os
 
 app = Flask(__name__, template_folder='views')
-routes.init_app(app)
+
 
 dir = os.path.abspath(os.path.dirname(__file__))
-
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{os.path.join(dir, 'models', 'games.sqlite3')}"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False 
+
+db.init_app(app)
+
+routes.init_app(app)
 
 if __name__ == '__main__':
-    db.init_app(app)  # Inicializa o banco com o app
-    with app.app_context():  # Cria um contexto da aplicação
-        db.create_all()  # Agora pode criar as tabelas
-    
+    with app.app_context():
+        db.create_all() 
+        
     app.run(host="localhost", port=5000, debug=True)

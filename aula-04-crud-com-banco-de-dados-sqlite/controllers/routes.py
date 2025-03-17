@@ -1,5 +1,5 @@
 import urllib.request
-from flask import render_template, request
+from flask import render_template, request, redirect, url_for
 from models.database import db, Game
 import urllib
 import json
@@ -57,7 +57,20 @@ def init_app(app):
 
         return render_template('apigames.html', gamesjson=gamesjson)
 
-    @app.route('/estoque')
-    def estoque():
-        gamesestoque = Game.query.all()
-        return render_template('estoque.html', gamesestoque=gamesestoque)
+    @app.route('/estoque', methods=['GET', 'POST'])
+    def estoque_view():
+        if request.method == 'POST':
+            newgame = Game(
+                title=request.form.get('title'),
+                year=request.form.get('year'),
+                category=request.form.get('category'),
+                platform=request.form.get('platform'),
+                price=request.form.get('price'),
+                quantity=request.form.get('quantity')
+            )
+        db.session.add(newgame)
+        db.session.commit()
+        return redirect(url_for('estoque_view'))
+
+    gamesestoque = Game.query.all()  # Agora a consulta ocorre dentro do contexto
+    return render_template('estoque.html', gamesestoque=gamesestoque)
