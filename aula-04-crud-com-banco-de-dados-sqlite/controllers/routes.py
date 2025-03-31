@@ -68,9 +68,9 @@ def init_app(app):
                 price=request.form.get('price'),
                 quantity=request.form.get('quantity')
             )
-        db.session.add(newgame)
-        db.session.commit()
-        return redirect(url_for('estoque_view'))
+            db.session.add(newgame)
+            db.session.commit()
+            return redirect(url_for('estoque_view'))
 
-    gamesestoque = Game.query.all()  # Agora a consulta ocorre dentro do contexto
-    return render_template('estoque.html', gamesestoque=gamesestoque)
+        gamesestoque = Game.query.all()  # Agora a consulta ocorre dentro do contexto
+        return render_template('estoque.html', gamesestoque=gamesestoque)
