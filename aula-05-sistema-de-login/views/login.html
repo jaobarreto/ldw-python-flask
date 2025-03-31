@@ -1,0 +1,28 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container col-4">
+  <div class="card mt-4">
+    <div class="card-body m-auto">
+      <form action="{{ url_for('login') }}" method="POST">
+        <label>Email:</label>
+        <input
+          for="email"
+          name="email"
+          class="form-control"
+          placeholder="Digite seu email"
+        />
+        <label>Senha:</label>
+        <input
+          for="password"
+          name="password"
+          class="form-control"
+          placeholder="Digite sua senha"
+        />
+        <br />
+        <button type="submit" class="btn btn-danger btn-block">Entrar</button>
+      </form>
+      <hr>
+      <h6>Não possui conta? <a href="{{url_for('caduser')}}">Cadastre-se!</a></h6>
+    </div>
+  </div>
+</div>
+{% endblock content %}

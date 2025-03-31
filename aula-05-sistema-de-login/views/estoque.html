@@ -1,0 +1,83 @@
+{% extends 'base.html' %} {% block content %}
+<body>
+  <details>
+    <summary>[ Cadastrar novo jogo ]</summary>
+    <div class="col-md-4">
+      <form action="{{ url_for('estoque_view') }}" method="POST">
+        <input
+          type="text"
+          name="title"
+          placeholder="Título"
+          class="form-control"
+          required
+        />
+        <input
+          type="text"
+          name="year"
+          placeholder="Ano"
+          class="form-control"
+          required
+        />
+        <input
+          type="text"
+          name="category"
+          placeholder="Categoria"
+          class="form-control"
+          required
+        />
+        <input
+          type="text"
+          name="platform"
+          placeholder="Plataforma"
+          class="form-control"
+          required
+        />
+        <input
+          type="text"
+          name="price"
+          placeholder="Preço"
+          class="form-control"
+          required
+        />
+        <input
+          type="text"
+          name="quantity"
+          placeholder="Quantidade"
+          class="form-control"
+          required
+        />
+        <br />
+        <input type="submit" value="Cadastrar" class="btn btn-success" />
+        <input type="reset" value="Limpar" class="btn btn-danger" />
+      </form>
+    </div>
+  </details>
+  <hr />
+  <h2>Controle de Estoque</h2>
+  <table class="table table-bordered table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>Título:</th>
+        <th>Ano:</th>
+        <th>Categoria:</th>
+        <th>Plataforma:</th>
+        <th>Preço:</th>
+        <th>Quantidade:</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for game in gamestoque %}
+      <tr>
+        <td>{{ game.title }}</td>
+        <td>{{ game.year }}</td>
+        <td>{{ game.category }}</td>
+        <td>{{ game.platform }}</td>
+        <td>{{ game.price }}</td>
+        <td>{{ game.quantity }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <hr />
+</body>
+{% endblock content %}
