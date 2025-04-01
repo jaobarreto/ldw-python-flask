@@ -1,7 +1,6 @@
 import urllib.request
 from flask import render_template, request, redirect, url_for, session, flash
 from models.database import db, Game, User
-import urllib
 import json
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -10,6 +9,21 @@ gamelist = [{'Título': 'League of Legends', 'Ano': 2009, 'Categoria': 'MOBA'}]
 
 
 def init_app(app):
+
+    @app.before_request
+    def check_auth():
+        # Rota para login não deve ser verificada para redirecionamento
+        routes = ['login', 'cadastro', 'home']
+
+        # Verifica se a rota atual não é 'login' e também se não é um arquivo estático
+        if request.endpoint in routes or request.path.startswith('/static/'):
+            return
+
+        # Se não houver 'user_id' na sessão, redireciona para login
+        if 'user_id' not in session:
+            return redirect(url_for('login'))
+
+
     @app.route('/')
     def home():
         return render_template('index.html')
@@ -43,7 +57,6 @@ def init_app(app):
         res = urllib.request.urlopen(url)
         data = res.read()
         gamesjson = json.loads(data)
-        # print(gamesjson)
 
         if id:
             ginfo = []
@@ -89,7 +102,8 @@ def init_app(app):
                 session['user_id'] = user.id
                 session['email'] = user.email
                 nickname = user.email.split('@')
-                flash(f'Login bem sucedido! Bem-vindo {nickname[0]}!', 'sucess')
+                flash(
+                    f'Login bem sucedido! Bem-vindo {nickname[0]}!', 'success')
                 return redirect(url_for('home'))
             else:
                 flash('Falha Login, Verifique seu nome de usuário e senha', 'danger')
@@ -107,6 +121,12 @@ def init_app(app):
             db.session.add(new_user)
             db.session.commit()
             return redirect(url_for('login'))
-        
+
         return render_template('caduser.html')
 
+    @app.route('/logout')
+    def logout():
+        session.pop('user_id', None)
+        session.pop('email', None)
+        flash('Logout realizado com sucesso!', 'success')
+        return redirect(url_for('home'))
